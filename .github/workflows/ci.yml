@@ -171,24 +171,6 @@ jobs:
         with:
           name: case-acopf-pwl
           path: case30-acopf_pwl_gencost.case
-  dcopf-q-gencost:
-    name: Archive DCOPF Q gencost
-    runs-on: ubuntu-latest
-    env:
-      REPO_NAME: ${{ github.event.repository.name }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: dcopf-q-gencost
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Archive
-        run: tar -cvf case30-dcopf_q_gencost.case *.csv README LICENSE
-      - name: Upload archive
-        uses: actions/upload-artifact@v4
-        with:
-          name: case-dcopf-q-gencost
-          path: case30-dcopf_q_gencost.case
   acopf-q-gencost:
     name: Archive ACOPF Q gencost
     runs-on: ubuntu-latest
@@ -242,9 +224,6 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: case-acopf-pwl
-      - uses: actions/download-artifact@v4
-        with:
-          name: case-dcopf-q-gencost
       - uses: actions/download-artifact@v4
         with:
           name: case-acopf-q-gencost
@@ -346,16 +325,6 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./case30-acopf_pwl_gencost.case
           asset_name: case30-acopf_pwl_gencost-${{ github.ref_name }}.case
-          asset_content_type: application/x-tar
-
-      - name: Upload dcopf Q gencost artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./case30-dcopf_q_gencost.case
-          asset_name: case30-dcopf_q_gencost-${{ github.ref_name }}.case
           asset_content_type: application/x-tar
 
       - name: Upload acopf Q gencost artifact
